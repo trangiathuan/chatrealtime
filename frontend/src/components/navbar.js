@@ -80,7 +80,7 @@ const Navbar = () => {
                     <a href="/" className="block hover:bg-blue-700 px-3 py-2 rounded">
                         Home
                     </a>
-                    <a href="/message/67d7dfce5d544218bc32382a" className="block hover:bg-blue-700 px-3 py-2 rounded">
+                    <a href="/message/67d7dfce5d544218bc32382a " className="block hover:bg-blue-700 px-3 py-2 rounded">
                         Massage
                     </a>
                     <a href="#" className="block hover:bg-blue-700 px-3 py-2 rounded">
