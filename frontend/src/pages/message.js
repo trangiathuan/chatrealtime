@@ -14,27 +14,27 @@ const Message = () => {
     const [message, setMessage] = useState("");  // State để lưu giá trị của ô input
     const { id } = useParams();
     const messagesEndRef = useRef(null);
+    const messagesContainerRef = useRef(null);  // Thêm ref cho container của tin nhắn
+
+    const [isAtBottom, setIsAtBottom] = useState(true); // Kiểm tra xem người dùng có ở dưới cùng hay không
 
     useEffect(() => {
         getListUser();
         getUser();
-        // // Kết nối tới socket server
-        // const socket = io("http://localhost:8888", {
-        //     transports: ["websocket"], // Kết nối qua WebSocket để cải thiện hiệu suất
-        // });
-
-        // // Lắng nghe sự kiện "receiveMessage" từ server
-        // socket.on("receiveMessage", (data) => {
-        //     if (data.receiver === userId || data.sender === userId) {
-        //         setMessages((prevMessages) => [...prevMessages, data.newMessage]);
-        //     }
-        // });
     }, [userId, id]);
 
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
         getMessages();
     }, [messages]);
+
+    // Kiểm tra khi người dùng cuộn
+    const handleScroll = () => {
+        const container = messagesContainerRef.current;
+        if (container) {
+            // Kiểm tra nếu người dùng cuộn lên trên
+            setIsAtBottom(container.scrollHeight - container.scrollTop === container.clientHeight);
+        }
+    };
 
     const getMessages = async () => {
         const token = localStorage.getItem("token");
@@ -77,19 +77,6 @@ const Message = () => {
                     },
                 }
             );
-
-            // Gửi tin nhắn qua socket
-            // const socket = io("http://localhost:8888");
-            // socket.emit("sendMessage", newMessage);
-
-            // setMessages((prevMessages) => [
-            //     ...prevMessages,
-            //     {
-            //         ...newMessage,
-            //         timestamp: new Date(),
-            //         status: "sent",
-            //     },
-            // ]);
         }
     };
 
@@ -118,6 +105,12 @@ const Message = () => {
         sendMessage(message);
         setMessage(""); // Reset ô input sau khi gửi tin nhắn
     };
+
+    useEffect(() => {
+        if (isAtBottom) {
+            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [messages, isAtBottom]);
 
     return (
         <div className="bg-gray-100">
@@ -148,7 +141,12 @@ const Message = () => {
                         </div>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto py-4 space-y-4" style={{ maxHeight: "450px" }}>
+                    <div
+                        className="flex-1 overflow-y-auto py-4 space-y-4"
+                        style={{ maxHeight: "450px" }}
+                        ref={messagesContainerRef}
+                        onScroll={handleScroll}  // Lắng nghe sự kiện cuộn
+                    >
                         {messages.map((message) => (
                             <div key={message._id} className={`flex ${message.sender === userId ? 'justify-end' : 'justify-start'}`}>
                                 <div className={`${message.sender === userId ? 'bg-blue-500 text-white' : 'bg-gray-200'} p-3 rounded-lg max-w-xs`}>
