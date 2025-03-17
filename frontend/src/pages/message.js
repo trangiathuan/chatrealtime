@@ -18,17 +18,6 @@ const Message = () => {
     useEffect(() => {
         getListUser();
         getUser();
-        // // Kết nối tới socket server
-        // const socket = io("http://localhost:8888", {
-        //     transports: ["websocket"], // Kết nối qua WebSocket để cải thiện hiệu suất
-        // });
-
-        // // Lắng nghe sự kiện "receiveMessage" từ server
-        // socket.on("receiveMessage", (data) => {
-        //     if (data.receiver === userId || data.sender === userId) {
-        //         setMessages((prevMessages) => [...prevMessages, data.newMessage]);
-        //     }
-        // });
     }, [userId, id]);
 
     useEffect(() => {
@@ -77,19 +66,6 @@ const Message = () => {
                     },
                 }
             );
-
-            // Gửi tin nhắn qua socket
-            // const socket = io("http://localhost:8888");
-            // socket.emit("sendMessage", newMessage);
-
-            // setMessages((prevMessages) => [
-            //     ...prevMessages,
-            //     {
-            //         ...newMessage,
-            //         timestamp: new Date(),
-            //         status: "sent",
-            //     },
-            // ]);
         }
     };
 
@@ -120,19 +96,20 @@ const Message = () => {
     };
 
     return (
-        <div className="bg-gray-100">
+        <div className="bg-gray-100 min-h-screen">
             <Navbar />
 
-            <div className="flex min-h-[640px]">
-                <div className="bg-gray-800 text-white min-w-[100px] w-80 p-4">
+            <div className="flex min-h-full">
+                {/* Sidebar - danh sách người dùng */}
+                <div className="bg-gray-800 text-white w-full min-h-[635px] lg:w-64 p-4">
                     <h2 className="text-xl font-bold mb-6">Chats</h2>
                     <div className="space-y-4">
                         {users.map((user) => (
                             <div key={user._id}>
                                 <a href={`/message/${user._id}`} className="flex items-center space-x-4 hover:bg-gray-700 p-2 rounded-lg cursor-pointer">
-                                    <img className="w-12 h-12 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg" alt="User 1" />
+                                    <img className="w-12 h-12 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" />
                                     <div className="flex flex-col">
-                                        <h4 className="text-lg font-medium hidden sm:flex">{user.fullName}</h4>
+                                        <h4 className="text-lg font-medium">{user.fullName}</h4>
                                     </div>
                                 </a>
                             </div>
@@ -140,6 +117,7 @@ const Message = () => {
                     </div>
                 </div>
 
+                {/* Main content - cuộc trò chuyện */}
                 <div className="flex-1 bg-white p-6 flex flex-col">
                     <div className="flex items-center justify-between border-b pb-4">
                         <div className="flex items-center space-x-4">
@@ -148,7 +126,7 @@ const Message = () => {
                         </div>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto py-4 space-y-4" style={{ maxHeight: "450px" }}>
+                    <div className="flex-1 overflow-y-auto py-4 space-y-4" style={{ maxHeight: "800px" }}>
                         {messages.map((message) => (
                             <div key={message._id} className={`flex ${message.sender === userId ? 'justify-end' : 'justify-start'}`}>
                                 <div className={`${message.sender === userId ? 'bg-blue-500 text-white' : 'bg-gray-200'} p-3 rounded-lg max-w-xs`}>
@@ -159,14 +137,15 @@ const Message = () => {
                         <div ref={messagesEndRef} />
                     </div>
 
+                    {/* Input gửi tin nhắn */}
                     <div className="flex items-center space-x-2 mt-4">
                         <input
                             type="text"
                             id="message-input"
-                            value={message} // Dùng value để liên kết với state
-                            onChange={(e) => setMessage(e.target.value)} // Cập nhật state khi người dùng nhập
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
                             onKeyDown={(e) => {
-                                if (e.key === 'Enter') {  // Kiểm tra khi nhấn Enter
+                                if (e.key === 'Enter') {
                                     handleSendMessage();
                                 }
                             }}
@@ -175,14 +154,13 @@ const Message = () => {
                         />
                         <button
                             className="bg-blue-500 text-white p-3 rounded-full"
-                            onClick={handleSendMessage} // Gọi hàm gửi tin nhắn
+                            onClick={handleSendMessage}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.25 5.25L19.5 12 2.25 18.75M19.5 12l-17.25 6.75" />
                             </svg>
                         </button>
                     </div>
-
                 </div>
             </div>
         </div>
