@@ -99,9 +99,9 @@ const Message = () => {
         <div className="bg-gray-100 min-h-screen">
             <Navbar />
 
-            <div className="flex min-h-full">
+            <div className="flex flex-col lg:flex-row min-h-full">
                 {/* Sidebar - danh sách người dùng */}
-                <div className="bg-gray-800 text-white w-full min-h-[635px] lg:w-64 p-4">
+                <div className="bg-gray-800 text-white w-full min-h-screen lg:w-64 p-4">
                     <h2 className="text-xl font-bold mb-6">Chats</h2>
                     <div className="space-y-4">
                         {users.map((user) => (
