@@ -116,7 +116,7 @@ const Message = () => {
         <div className="bg-gray-100">
             <Navbar />
 
-            <div className="flex min-h-[640px]">
+            <div className="flex min-h-screen">
                 <div className="bg-gray-800 text-white min-w-[100px] w-80 p-4">
                     <h2 className="text-xl font-bold mb-6">Chats</h2>
                     <div className="space-y-4">
