@@ -31,8 +31,8 @@ const Message = () => {
 
         socket.on('receiveMessage', (newMessage) => {
             const decodedToken = jwtDecode(token);
-            const id = decodedToken._id;
-            if (newMessage.receiver === id || newMessage.sender === id) {
+            const userId = decodedToken._id;
+            if (newMessage.receiver === userId && newMessage.sender === id || newMessage.receiver === id && newMessage.sender === userId) {
                 setMessages(prevMessages => [...prevMessages, newMessage]);
             }
         });
@@ -166,8 +166,8 @@ const Message = () => {
                     </div>
 
                     <div
-                        className="flex-1 overflow-y-auto py-4 space-y-4"
-                        style={{ maxHeight: "460px" }}
+                        className="flex-1 overflow-y-auto py-4 space-y-4 "
+                        style={{ maxHeight: "450px" }}
                         ref={messagesContainerRef}
 
                     >
