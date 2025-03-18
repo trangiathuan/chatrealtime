@@ -5,7 +5,7 @@ exports.sendMessageService = async (mess) => {
         const message = await mess.save();
         return message;
     } catch (error) {
-        console.log("Lỗi ở đây nè: ", error);
+        console.log("sendMessageService error: ", error);
     }
 }
 

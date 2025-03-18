@@ -9,6 +9,7 @@ import Login from './pages/login';
 import Register from './pages/register';
 import Message from './pages/message';
 import TestMess from './pages/testMessage';
+import MessageSocket from './pages/messageSocket';
 
 
 
@@ -21,7 +22,7 @@ root.render(
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/message/:id' element={<Message />} />
-        <Route path='/testMassage' element={<TestMess />} />
+
 
       </Routes>
     </BrowserRouter>

@@ -41,14 +41,14 @@ const Navbar = () => {
                     <a href="/" className="text-white hover:bg-blue-700 px-3 py-2 rounded">
                         Home
                     </a>
-                    <a href="/message/67d7dfce5d544218bc32382a" className="text-white hover:bg-blue-700 px-3 py-2 rounded">
-                        Massage
-                    </a>
-                    <a href="/testMassage" className="text-white hover:bg-blue-700 px-3 py-2 rounded">
-                        testMessage
+                    <a href="/message/67d855c48ee4d9189b222db3" className="text-white hover:bg-blue-700 px-3 py-2 rounded">
+                        Message
                     </a>
                     <a href="#" className="text-white hover:bg-blue-700 px-3 py-2 rounded">
-                        Services
+                        About
+                    </a>
+                    <a href="#" className="text-white hover:bg-blue-700 px-3 py-2 rounded">
+                        Service
                     </a>
                     {
                         isLoggedIn ?
