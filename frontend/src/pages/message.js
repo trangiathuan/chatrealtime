@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';  // Sử dụng jwtDecode thay vì jwt_decode
 import io from "socket.io-client";  // Import socket.io-client
 
-const socket = io("http://localhost:8888");
+const socket = io("https://message-bygiathuan.onrender.com");
 
 const Message = () => {
     const [users, setUsers] = useState([]);
