@@ -20,14 +20,21 @@ const Message = () => {
 
     const [isAutoScroll, setIsAutoScroll] = useState(true);  // Trạng thái kiểm tra cuộn tự động
 
+    const token = localStorage.getItem("token");
+
 
 
     useEffect(() => {
         getListUser();
         getUser();
         getMessages();
+
         socket.on('receiveMessage', (newMessage) => {
-            setMessages(prevMessages => [...prevMessages, newMessage]);
+            const decodedToken = jwtDecode(token);
+            const id = decodedToken._id;
+            if (newMessage.receiver === id) {
+                setMessages(prevMessages => [...prevMessages, newMessage]);
+            }
         });
 
         return () => {
@@ -41,6 +48,10 @@ const Message = () => {
         scrollToBottom();
 
     }, [messages, isAutoScroll]);
+
+    const getMessagesSocket = async () => {
+
+    }
 
     const getMessages = async () => {
         const token = localStorage.getItem("token");
