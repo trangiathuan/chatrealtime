@@ -32,7 +32,7 @@ const Message = () => {
         socket.on('receiveMessage', (newMessage) => {
             const decodedToken = jwtDecode(token);
             const id = decodedToken._id;
-            if (newMessage.receiver === id) {
+            if (newMessage.receiver === id || newMessage.sender === id) {
                 setMessages(prevMessages => [...prevMessages, newMessage]);
             }
         });
