@@ -18,7 +18,7 @@ const server = http.createServer(app);
 // Kết nối Socket.IO vào server
 const io = socketIo(server, {
     cors: {
-        origin: ["http://localhost:3000", "https://message-bygiathuan.onrender.com"],  // Đặt domain frontend của bạn ở đây
+        origin: "*",  // Đặt domain frontend của bạn ở đây
         methods: ["GET", "POST"],
     },
 });
