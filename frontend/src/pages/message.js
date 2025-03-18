@@ -138,7 +138,7 @@ const Message = () => {
         <div className="bg-gray-100 min-h-screen">
             <Navbar />
 
-            <div className="flex ">
+            <div className="flex min-h-screen ">
                 <div className="bg-gray-800 text-white min-w-[90px] w-80 p-4">
                     <h2 className="text-xl font-bold mb-6">Chats</h2>
                     <div className="space-y-4">
@@ -156,7 +156,7 @@ const Message = () => {
                     </div>
                 </div>
 
-                <div className="flex-1 bg-white p-6 flex flex-col min-w-60">
+                <div className="flex-1 bg-white p-6 flex flex-col min-w-72">
                     <div className="flex items-center justify-between border-b pb-4">
                         <div className="flex items-center space-x-4">
                             <img className="w-12 h-12 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" />
