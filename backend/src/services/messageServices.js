@@ -3,6 +3,9 @@ const User = require('../models/user');
 exports.sendMessageService = async (mess) => {
     try {
         const message = await mess.save();
+        const sender = await User.findById(message.sender)
+        const receiver = await User.findById(message.receiver)
+        console.log(sender.fullName, '===>', receiver.fullName, '\nMessage:', message.content);
         return message;
     } catch (error) {
         console.log("sendMessageService error: ", error);

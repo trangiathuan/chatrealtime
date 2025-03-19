@@ -2,11 +2,12 @@ import { useEffect, useState, useRef } from "react";
 import Navbar from "../components/navbar";
 import axios from "axios";
 import ENDPOIN_API from "../configs/configAPI";
+import HOST_SOCKET from "../configs/configServerSocket";
 import { useParams } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';  // Sử dụng jwtDecode thay vì jwt_decode
-import io from "socket.io-client";  // Import socket.io-client
+import { jwtDecode } from 'jwt-decode';
+import io from "socket.io-client";
 
-const socket = io("https://message-bygiathuan.onrender.com");
+const socket = io(HOST_SOCKET);
 
 const Message = () => {
     const [users, setUsers] = useState([]);
@@ -17,41 +18,31 @@ const Message = () => {
     const { id } = useParams();
     const messagesEndRef = useRef(null);  // Tham chiếu đến phần tử cuối cùng
     const messagesContainerRef = useRef(null);  // Tham chiếu đến container chứa tin nhắn
-
     const [isAutoScroll, setIsAutoScroll] = useState(true);  // Trạng thái kiểm tra cuộn tự động
 
     const token = localStorage.getItem("token");
-
-
 
     useEffect(() => {
         getListUser();
         getUser();
         getMessages();
 
-        socket.on('receiveMessage', (newMessage) => {
+        socket.on('receiveMessage', (Message) => {
             const decodedToken = jwtDecode(token);
             const userId = decodedToken._id;
-            if (newMessage.receiver === userId && newMessage.sender === id || newMessage.receiver === id && newMessage.sender === userId) {
-                setMessages(prevMessages => [...prevMessages, newMessage]);
+            if (Message.receiver === userId && Message.sender === id || Message.receiver === id && Message.sender === userId) {
+                setMessages(prevMessages => [...prevMessages, Message]);
             }
         });
 
         return () => {
-            socket.off('receiveMessage');  // Hủy sự kiện 'receiveMessage' khi component unmount
+            socket.off('receiveMessage');
         };
     }, []);
 
-
-
     useEffect(() => {
         scrollToBottom();
-
     }, [messages, isAutoScroll]);
-
-    const getMessagesSocket = async () => {
-
-    }
 
     const getMessages = async () => {
         const token = localStorage.getItem("token");
@@ -72,6 +63,11 @@ const Message = () => {
         }
     };
 
+    const handleSendMessage = () => {
+        sendMessage(message);
+        setMessage("");
+    };
+
     const sendMessage = async (content) => {
         const token = localStorage.getItem("token");
         if (token && content.trim()) {
@@ -86,7 +82,7 @@ const Message = () => {
             };
 
             socket.emit("sendMessage", newMessage);
-            setMessage(""); // Clear the input field after sending the message
+            setMessage("");
         }
     };
 
@@ -111,10 +107,7 @@ const Message = () => {
         }
     };
 
-    const handleSendMessage = () => {
-        sendMessage(message);
-        setMessage(""); // Reset ô input sau khi gửi tin nhắn
-    };
+
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
@@ -188,7 +181,7 @@ const Message = () => {
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                             onKeyDown={handleKeyDown}
-                            className="flex-1 p-3 border border-gray-300 rounded-lg min-w-1"
+                            className="flex-1 p-3 border border-gray-300 rounded-lg min-w-1 focus:outline-none"
                             placeholder="Type a message"
                         />
                         <button

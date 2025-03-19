@@ -32,8 +32,6 @@ app.use("/api/v1", routerUser);
 app.use("/api/v1", routerMessage);
 
 io.on("connection", (socket) => {
-    console.log("User connection soket id: ", socket.id);
-
     socket.on("sendMessage", (message) => {
         const { sender, receiver, content } = message
 
@@ -42,14 +40,12 @@ io.on("connection", (socket) => {
             receiver,
             content
         })
-        console.log(newMessage);
 
         sendMessageService(newMessage);
 
         io.emit("receiveMessage", message)
     })
     socket.on("disconnect", () => {
-        console.log(`🔴 User disconnected: ${socket.id}`);
     });
 
 })
